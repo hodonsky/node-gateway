@@ -1,0 +1,9 @@
+"use strict";Object.defineProperty(exports,"__esModule",{value:!0}),exports.default=void 0;var _koa=_interopRequireDefault(require("koa")),_koaBodyparser=_interopRequireDefault(require("koa-bodyparser")),_koaCors=_interopRequireDefault(require("koa-cors")),_koaHelmet=_interopRequireDefault(require("koa-helmet")),_koaSslify=_interopRequireDefault(require("koa-sslify")),_koaMorgan=_interopRequireDefault(require("koa-morgan")),_koaRouter=_interopRequireDefault(require("koa-router")),_Actor=_interopRequireDefault(require("./Actor")),_routeHelpers=require("./routeHelpers");function _interopRequireDefault(a){return a&&a.__esModule?a:{default:a}}var _default=a=>{var{verbose:b,env:d="local",actions:e=[],mq:c}=a,f=new _koa.default,g=new _koaRouter.default;f.proxy=!0,f.on("error",(a,c)=>{b&&console.error({error:a,ctx:c})}),"production"===d&&f.use((0,_koaSslify.default)({trustProtoHeader:!0,redirectMethods:["HEAD","OPTIONS","GET","POST"],specCompliantDisallow:!0}));var h={};// build routes
+return e.forEach(a=>{var b=[a.method,a.route];// TODO: this concept needs to be abstracted,
+// 'doAuth' currently requires the auth module,
+// which won't exist upon library completion
+// if ( val.auth ) {
+//   args.push(  val.auth === true ? doAuth( 0 ) : doAuth( val.auth ) )
+// }
+h[a.topic]||(h[a.topic]=new _Actor.default({topic:a.topic,mq:c})),a.actor=h[a.topic],b.push((0,_routeHelpers.handleRequest)(a)),g[a.method](...b)}),f.use((0,_koaMorgan.default)("combined"))//TODO: set list of FROM domains per environment, probably should be and env var actually
+.use((0,_koaCors.default)()).use((0,_koaHelmet.default)()).use((0,_koaBodyparser.default)({enableTypes:["json","form"],formLimit:"5mb"})).use(g.routes()).use(g.allowedMethods()),f};exports.default=_default;

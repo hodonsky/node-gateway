@@ -1,16 +1,15 @@
 {
   "name": "@donsky/node-gateway",
-  "version": "0.2.1",
+  "version": "0.2.2",
   "description": "Node web server (koajs), extending routes to a message queue (amqp by default) of 'topic' and 'action'.",
-  "main": "./dist/Server.js",
+  "main": "./bin/index.js",
   "directories": {
-    "lib": "lib"
+    "lib": "lib",
+    "bin": "bin"
   },
   "scripts": {
     "test": "mocha --exit --require ./node_modules/babel-core/register",
-    "build": "npm run babel && npm run parcel",
-    "babel": "npx babel --ignore 'node_modules/**' --ignore './*.test.js' --ignore 'tests/**' --out-dir ./dist ./lib",
-    "parcel": "npx parcel build ./dist/Server.js --no-cache --no-source-maps -d ./bin && rm-rf ./dist"
+    "build": "npx babel --ignore 'node_modules/**' --ignore './*.test.js' --ignore 'tests/**' --out-dir ./dist ./lib"
   },
   "repository": {
     "type": "git",
@@ -81,27 +80,19 @@
     "chai": "^4.2.0",
     "chai-as-promised": "^7.1.1",
     "mocha": "^8.0.1",
-    "parcel-bundler": "1.12.4",
     "rimraf": "^3.0.2",
     "sinon": "^9.0.2"
   },
-  "babel": {
+  "babel":{
     "presets": [
-      [
-        "@babel/preset-env",
-        {
-          "targets": {
-            "esmodules": true
-          }
+      ["@babel/preset-env", {
+        "targets": {
+          "esmodules": true
         }
-      ],
-      [
-        "minify",
-        {
-          "keepFnName": true,
-          "keepClassName": true
-        }
-      ]
+      }],
+      [ "minify", {
+        "keepFnName": true
+      }]
     ],
     "plugins": [
       "@babel/plugin-proposal-class-properties",
@@ -117,12 +108,7 @@
       "@babel/plugin-proposal-function-bind",
       "@babel/plugin-proposal-partial-application",
       "@babel/plugin-proposal-object-rest-spread",
-      [
-        "@babel/plugin-proposal-pipeline-operator",
-        {
-          "proposal": "fsharp"
-        }
-      ]
+      [ "@babel/plugin-proposal-pipeline-operator", { "proposal": "fsharp" } ]
     ],
     "ignore": [
       "node_modules/**/*"
