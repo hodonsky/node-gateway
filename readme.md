@@ -1,6 +1,21 @@
 # Node-Gateway
 
-This is the gateway side of the SOA, it requires a message queue, and associated consumers ( coming soon: @donsky/node-consumer ).
+This is the gateway side of the SOA.
+
+### Prerequisites ( standard AMQP 0-9-1 ):
+- AMQP Server/Cluster accepting connections with credentials.
+
+    `( see below for 'Local' setup )`
+
+- Consumer Service(s)/Cluster(s) responding on responseTopic with CorrelationID. ( coming soon: @donsky/node-consumer )
+
+
+### Impliments:
+- NodeJS
+- AVRO Message Standards & Schema ( dependancy: avsc )
+- AMQP 0-9-1 Communication Standard ( dependancy: amqplib )
+- Babel 7 & ESNext plugins ( dependancy: babel-* )
+- KoaJS net server listening on `PORT` ( dependancy: koa & koa-* )
 
 ## Initialize Your Gateway Server
 
@@ -113,9 +128,44 @@ new Gateway([action])
 
 <br/>
 
-<br/>
-
 > Notes:
 > - Without any __actions__ the server should start, but it won't do much
 > - Port __80__ is not allowed to be exposed on a mac, so the default is actually 8080: This can be found in __(./lib/config.js).port__
-> - This works well with PM2 
+> - This works well with PM2 (Process Manager 2)
+<br/>
+
+## Local:
+
+May I recommend spinning up a docker environment for those prerequisites, and getting all the services talking:
+```Dockerfile
+# Note: I use a docker container
+version: "3.8"
+services:
+  rabbitmq:
+    image: rabbitmq:management
+    ports:
+     - "5672:5672"
+     - "15672:15672"
+    environment:
+      # ${ENV_VAR} work here for values as well
+      RABBITMQ_DEFAULT_USER: defaultAdmin
+      RABBITMQ_DEFAULT_PASS: SomePassword
+    restart: on-failure   
+  gateway:
+    build:
+      context: ./
+    ports:
+     - "80:80"
+    environment:
+     - NODE_ENV=local
+     - HOSTNAME=gateway
+     - PORT=80
+     - MQ_PROTOCOL=amqp
+     - MQ_HOSTNAME=rabbitmq
+     - MQ_PORT=5672
+     - MQ_USERNAME=defaultAdmin
+     - MQ_PASSWORD=SomePassword
+    depends_on:
+     - rabbitmq
+    restart: on-failure
+```
