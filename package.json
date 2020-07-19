@@ -1,8 +1,8 @@
 {
   "name": "@donsky/node-gateway",
-  "version": "0.2.2",
+  "version": "0.2.3",
   "description": "Node web server (koajs), extending routes to a message queue (amqp by default) of 'topic' and 'action'.",
-  "main": "./bin/index.js",
+  "main": "./dist/Server.js",
   "directories": {
     "lib": "lib",
     "bin": "bin"
@@ -83,16 +83,22 @@
     "rimraf": "^3.0.2",
     "sinon": "^9.0.2"
   },
-  "babel":{
+  "babel": {
     "presets": [
-      ["@babel/preset-env", {
-        "targets": {
-          "esmodules": true
+      [
+        "@babel/preset-env",
+        {
+          "targets": {
+            "esmodules": true
+          }
         }
-      }],
-      [ "minify", {
-        "keepFnName": true
-      }]
+      ],
+      [
+        "minify",
+        {
+          "keepFnName": true
+        }
+      ]
     ],
     "plugins": [
       "@babel/plugin-proposal-class-properties",
@@ -108,7 +114,12 @@
       "@babel/plugin-proposal-function-bind",
       "@babel/plugin-proposal-partial-application",
       "@babel/plugin-proposal-object-rest-spread",
-      [ "@babel/plugin-proposal-pipeline-operator", { "proposal": "fsharp" } ]
+      [
+        "@babel/plugin-proposal-pipeline-operator",
+        {
+          "proposal": "fsharp"
+        }
+      ]
     ],
     "ignore": [
       "node_modules/**/*"
