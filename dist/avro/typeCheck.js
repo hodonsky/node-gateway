@@ -80,4 +80,3 @@ var isContentValidType = /*#__PURE__*/function () {
 }();
 
 exports.isContentValidType = isContentValidType;
-//# sourceMappingURL=typeCheck.js.map

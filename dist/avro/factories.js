@@ -71,4 +71,3 @@ var errorContractFactory = (name, fields) => ({
 });
 
 exports.errorContractFactory = errorContractFactory;
-//# sourceMappingURL=factories.js.map

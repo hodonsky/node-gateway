@@ -51,4 +51,3 @@ var toAVRO = /*#__PURE__*/function () {
 }();
 
 exports.toAVRO = toAVRO;
-//# sourceMappingURL=to.js.map

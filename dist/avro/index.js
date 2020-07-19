@@ -53,4 +53,3 @@ var _from = require("./from");
 var _to = require("./to");
 
 var _typeCheck = require("./typeCheck");
-//# sourceMappingURL=index.js.map

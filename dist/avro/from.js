@@ -28,4 +28,3 @@ var fromAVRO = (content, AVRORule) => {
 };
 
 exports.fromAVRO = fromAVRO;
-//# sourceMappingURL=from.js.map

@@ -26,4 +26,3 @@ var _default = {
   version: pkg.version || "0.0.0"
 };
 exports.default = _default;
-//# sourceMappingURL=config.js.map

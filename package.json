@@ -1,15 +1,14 @@
 {
   "name": "@donsky/node-gateway",
-  "version": "0.2.5",
+  "version": "0.2.6",
   "description": "Node web server (koajs), extending routes to a message queue (amqp by default) of 'topic' and 'action'.",
   "main": "./dist/Server.js",
   "directories": {
-    "lib": "lib",
-    "bin": "bin"
+    "lib": "lib"
   },
   "scripts": {
     "test": "mocha --exit --require ./node_modules/babel-core/register",
-    "build": "npx babel --ignore 'node_modules/**' --ignore './*.test.js' --ignore 'tests/**' --source-maps --out-dir ./dist ./lib"
+    "build": "npx babel --ignore 'node_modules/**' --ignore './*.test.js' --ignore 'tests/**' --out-dir ./dist ./lib"
   },
   "repository": {
     "type": "git",

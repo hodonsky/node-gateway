@@ -19,18 +19,6 @@ function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try
 
 function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
 
-function _templateObject() {
-  var data = _taggedTemplateLiteral(["", "_", ""]);
-
-  _templateObject = function _templateObject() {
-    return data;
-  };
-
-  return data;
-}
-
-function _taggedTemplateLiteral(strings, raw) { if (!raw) { raw = strings.slice(0); } return Object.freeze(Object.defineProperties(strings, { raw: { value: Object.freeze(raw) } })); }
-
 function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); keys.push.apply(keys, symbols); } return keys; }
 
 function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys(Object(source), true).forEach(function (key) { _defineProperty(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
@@ -167,7 +155,7 @@ class Actor {
 
     _classPrivateFieldSet(this, _config, _objectSpread(_objectSpread({}, _classPrivateFieldGet(this, _config)), config));
 
-    _classPrivateFieldGet(this, _instanceId)(_templateObject(), _classPrivateFieldGet(this, _config).actorName, _perf_hooks.performance.now());
+    _classPrivateFieldSet(this, _instanceId, "".concat(_classPrivateFieldGet(this, _config).actorName, "_").concat(_perf_hooks.performance.now()));
 
     _classPrivateFieldSet(this, _responseTopic, "".concat(_classPrivateFieldGet(this, _config).topic, "-res-").concat(_classPrivateFieldGet(this, _instanceId), "-").concat(process.pid));
 
@@ -394,4 +382,3 @@ var _buildResponder2 = function _buildResponder2(correlationId, resolve, reject,
 
   _classPrivateFieldGet(this, _respondersExpires)[correlationId] = new Date().getTime() + 1000 * _classPrivateFieldGet(this, _config).requestTTL;
 };
-//# sourceMappingURL=Actor.js.map

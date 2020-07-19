@@ -82,4 +82,3 @@ var _default = config => {
 };
 
 exports.default = _default;
-//# sourceMappingURL=createApplication.js.map
