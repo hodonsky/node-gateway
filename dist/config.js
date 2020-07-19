@@ -1,1 +1,2 @@
 "use strict";Object.defineProperty(exports,"__esModule",{value:!0}),exports.default=void 0;var OS=require("os"),pkg=require("../package.json"),cpus=OS.cpus().length,_default={cluster:1<cpus,cpus,env:process.env.NODE_ENV||"local",hostname:process.env.HOSTNAME||"",mq:{protocol:process.env.MQ_PROTOCOL,hostname:process.env.MQ_HOSTNAME,port:process.env.MQ_PORT,username:process.env.MQ_USERNAME,password:process.env.MQ_PASSWORD},port:process.env.PORT||8080,version:pkg.version||"0.0.0"};exports.default=_default;
+//# sourceMappingURL=config.js.map

@@ -7,3 +7,4 @@ return e.forEach(a=>{var b=[a.method,a.route];// TODO: this concept needs to be 
 // }
 h[a.topic]||(h[a.topic]=new _Actor.default({topic:a.topic,mq:c})),a.actor=h[a.topic],b.push((0,_routeHelpers.handleRequest)(a)),g[a.method](...b)}),f.use((0,_koaMorgan.default)("combined"))//TODO: set list of FROM domains per environment, probably should be and env var actually
 .use((0,_koaCors.default)()).use((0,_koaHelmet.default)()).use((0,_koaBodyparser.default)({enableTypes:["json","form"],formLimit:"5mb"})).use(g.routes()).use(g.allowedMethods()),f};exports.default=_default;
+//# sourceMappingURL=createApplication.js.map
