@@ -11,7 +11,7 @@ var _awsSdk = _interopRequireDefault(require("aws-sdk"));
 
 var _uuid = require("uuid");
 
-var _MQ = _interopRequireDefault(require("./MQ"));
+var _Connector = _interopRequireDefault(require("./Connector"));
 
 var _AVRO = require("./AVRO");
 
@@ -327,7 +327,7 @@ var _initilizeConnection2 = /*#__PURE__*/function () {
       };
     }();
 
-    attach(yield (0, _MQ.default)(_classPrivateFieldGet(this, _config).mq));
+    attach(yield (0, _Connector.default)(_classPrivateFieldGet(this, _config).mq));
   });
 
   function _initilizeConnection2() {

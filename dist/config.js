@@ -13,8 +13,8 @@ var cpus = OS.cpus().length;
 var _default = {
   cluster: cpus > 1,
   cpus,
-  env: process.env.NODE_ENV,
-  hostname: process.env.HOSTNAME,
+  env: process.env.NODE_ENV || "local",
+  hostname: process.env.HOSTNAME || "",
   logger: {
     domain: process.env.LOGGLY_DOMAIN,
     token: process.env.LOGGLY_TOKEN,
@@ -28,6 +28,6 @@ var _default = {
     password: process.env.MQ_PASSWORD
   },
   port: process.env.PORT || 8080,
-  version: pkg.version
+  version: pkg.version || "0.0.0"
 };
 exports.default = _default;
