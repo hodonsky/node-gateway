@@ -1,7 +1,7 @@
 {
   "name": "@donsky/node-gateway",
-  "version": "0.2.7",
-  "description": "Node web server (koajs), extending routes to a message queue (amqp by default) of 'topic' and 'action'.",
+  "version": "0.2.8",
+  "description": "Node web server (koajs), extending routes to a message queue (amqp 0-9-1) of 'topic' and 'action'.",
   "main": "./dist/Server.js",
   "directories": {
     "lib": "lib"
@@ -15,20 +15,33 @@
     "url": "git+https://github.com/hodonsky/node-gateway.git"
   },
   "keywords": [
+    "donsky",
+    "@donsky",
+    "node-gateway",
+    "node gateway",
     "gateway",
     "service",
     "soa",
+    "service oriented architecture",
     "amqp",
+    "amqplib",
     "avro",
     "avsc",
     "node",
     "nodejs",
     "web",
-    "node-gateway",
+    "backend",
+    "http",
+    "https",
     "server",
     "node-server",
+    "node server",
     "message",
-    "queue"
+    "queue",
+    "message-queue",
+    "message queue",
+    "koa",
+    "koajs"
   ],
   "author": "eric.hodonsky@gmail.com",
   "license": "MIT",
