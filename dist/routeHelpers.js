@@ -43,8 +43,7 @@ var handleError = (response, error) => {
     status = 500,
     userError,
     message
-  } = error; //logger.submit( error, "error" )
-
+  } = error;
   console.error(error);
   response.set("x-request-id", xRequestId);
   response.status = status;

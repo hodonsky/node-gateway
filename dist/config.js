@@ -15,11 +15,6 @@ var _default = {
   cpus,
   env: process.env.NODE_ENV || "local",
   hostname: process.env.HOSTNAME || "",
-  logger: {
-    domain: process.env.LOGGLY_DOMAIN,
-    token: process.env.LOGGLY_TOKEN,
-    tags: [process.env.HOSTNAME, process.env.NODE_ENV]
-  },
   mq: {
     protocol: process.env.MQ_PROTOCOL,
     hostname: process.env.MQ_HOSTNAME,

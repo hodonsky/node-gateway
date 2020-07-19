@@ -39,12 +39,6 @@ Object.defineProperty(exports, "toAVRO", {
     return _to.toAVRO;
   }
 });
-Object.defineProperty(exports, "transformer", {
-  enumerable: true,
-  get: function get() {
-    return _transformer.transformer;
-  }
-});
 Object.defineProperty(exports, "isContentValidType", {
   enumerable: true,
   get: function get() {
@@ -57,7 +51,5 @@ var _factories = require("./factories");
 var _from = require("./from");
 
 var _to = require("./to");
-
-var _transformer = require("./transformer");
 
 var _typeCheck = require("./typeCheck");

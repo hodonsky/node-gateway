@@ -49,7 +49,7 @@ Gateway.configure({
 ```
 
 
-## Action Shape:
+## Action Object Options:
 
 ```javascript
 // action.js

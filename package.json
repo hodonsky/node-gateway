@@ -1,6 +1,6 @@
 {
   "name": "@donsky/node-gateway",
-  "version": "0.1.9",
+  "version": "0.2.0",
   "description": "Node web server (koajs), extending routes to a message queue (amqp by default) of 'topic' and 'action'.",
   "main": "./dist/Server.js",
   "directories": {
@@ -43,7 +43,6 @@
   "dependencies": {
     "amqplib": "^0.5.6",
     "avsc": "^5.4.21",
-    "aws-sdk": "^2.713.0",
     "koa": "^2.13.0",
     "koa-bodyparser": "^4.3.0",
     "koa-combine-routers": "^4.0.2",
@@ -54,13 +53,10 @@
     "koa-sslify": "^4.0.3",
     "morgan": "^1.10.0",
     "os": "^0.1.1",
-    "uuid": "^8.2.0",
-    "winston": "^3.2.1",
-    "winston-loggly-bulk": "^3.0.1"
+    "uuid": "^8.2.0"
   },
   "devDependencies": {
     "babel-plugin-module-resolver": "^4.0.0",
-    "babel-plugin-tcomb": "0.4.0",
     "@babel/cli": "^7.10.4",
     "@babel/core": "^7.10.4",
     "@babel/plugin-proposal-class-properties": "^7.10.4",

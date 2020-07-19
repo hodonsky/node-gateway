@@ -27,29 +27,19 @@ var _routeHelpers = require("./routeHelpers");
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); keys.push.apply(keys, symbols); } return keys; }
-
-function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys(Object(source), true).forEach(function (key) { _defineProperty(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
-
-function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
-
 var _default = config => {
   var {
     verbose,
-    logger: loggerConfig,
     env = "local",
     actions = [],
     mq
   } = config;
   var app = new _koa.default();
   var router = new _koaRouter.default();
-  var logger = new _Logger.default(_objectSpread(_objectSpread({}, loggerConfig), {}, {
-    env
-  }));
   app.proxy = true;
   app.on("error", (error, ctx) => {
     if (verbose) {
-      logger.submit("error", {
+      console.error({
         error,
         ctx
       });
@@ -77,7 +67,6 @@ var _default = config => {
     if (!actors[val.topic]) {
       actors[val.topic] = new _Actor.default({
         topic: val.topic,
-        logger: loggerConfig,
         mq
       });
     }
@@ -86,9 +75,7 @@ var _default = config => {
     args.push((0, _routeHelpers.handleRequest)(val));
     router[val.method](...args);
   });
-  app.use((0, _koaMorgan.default)("combined", {
-    stream: logger.stream
-  })) //TODO: set list of FROM domains per environment, probably should be and env var actually
+  app.use((0, _koaMorgan.default)("combined")) //TODO: set list of FROM domains per environment, probably should be and env var actually
   .use((0, _koaCors.default)()).use((0, _koaHelmet.default)()).use((0, _koaBodyparser.default)({
     enableTypes: ["json", "form"],
     formLimit: "5mb"

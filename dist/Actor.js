@@ -7,15 +7,13 @@ exports.default = void 0;
 
 var _perf_hooks = require("perf_hooks");
 
-var _awsSdk = _interopRequireDefault(require("aws-sdk"));
-
 var _uuid = require("uuid");
-
-var _avro = require("./avro");
 
 var _Logger = _interopRequireDefault(require("./Logger"));
 
 var _connector = _interopRequireDefault(require("./connector"));
+
+var _avro = require("./avro");
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -23,23 +21,33 @@ function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try
 
 function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
 
+function _templateObject() {
+  var data = _taggedTemplateLiteral(["", "_", ""]);
+
+  _templateObject = function _templateObject() {
+    return data;
+  };
+
+  return data;
+}
+
+function _taggedTemplateLiteral(strings, raw) { if (!raw) { raw = strings.slice(0); } return Object.freeze(Object.defineProperties(strings, { raw: { value: Object.freeze(raw) } })); }
+
 function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); keys.push.apply(keys, symbols); } return keys; }
 
 function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys(Object(source), true).forEach(function (key) { _defineProperty(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
 
 function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 
-function _classPrivateFieldSet(receiver, privateMap, value) { var descriptor = privateMap.get(receiver); if (!descriptor) { throw new TypeError("attempted to set private field on non-instance"); } if (descriptor.set) { descriptor.set.call(receiver, value); } else { if (!descriptor.writable) { throw new TypeError("attempted to set read only private field"); } descriptor.value = value; } return value; }
-
 function _classPrivateMethodGet(receiver, privateSet, fn) { if (!privateSet.has(receiver)) { throw new TypeError("attempted to get private field on non-instance"); } return fn; }
+
+function _classPrivateFieldSet(receiver, privateMap, value) { var descriptor = privateMap.get(receiver); if (!descriptor) { throw new TypeError("attempted to set private field on non-instance"); } if (descriptor.set) { descriptor.set.call(receiver, value); } else { if (!descriptor.writable) { throw new TypeError("attempted to set read only private field"); } descriptor.value = value; } return value; }
 
 function _classPrivateFieldGet(receiver, privateMap) { var descriptor = privateMap.get(receiver); if (!descriptor) { throw new TypeError("attempted to get private field on non-instance"); } if (descriptor.get) { return descriptor.get.call(receiver); } return descriptor.value; }
 
 var _config = new WeakMap();
 
 var _link = new WeakMap();
-
-var _logger = new WeakMap();
 
 var _instanceId = new WeakMap();
 
@@ -66,7 +74,7 @@ var _buildResponder = new WeakSet();
  */
 class Actor {
   /**
-   * Sends log to logger transport
+   * Sends to console
    * @param { Object | String } entry - Object or string entry for logging
    * @param { String} severity - Log level [debug|info|error...]
    */
@@ -114,7 +122,6 @@ class Actor {
       value: {
         actorName: "Service Actor",
         env: "local",
-        logger: {},
         mq: {},
         uuidFn: _uuid.v4,
         // In Seconds ( 4 minutes )
@@ -125,11 +132,6 @@ class Actor {
     });
 
     _link.set(this, {
-      writable: true,
-      value: null
-    });
-
-    _logger.set(this, {
       writable: true,
       value: null
     });
@@ -161,13 +163,15 @@ class Actor {
 
     if (!config.topic) {
       throw {
-        message: "Topic name required { topic: \"\" }"
+        message: "Topic name required. example: { topic: \"\" }"
       };
     }
 
     _classPrivateFieldSet(this, _config, _objectSpread(_objectSpread({}, _classPrivateFieldGet(this, _config)), config));
 
-    _classPrivateFieldSet(this, _logger, new _Logger.default(_classPrivateFieldGet(this, _config).logger));
+    _classPrivateFieldGet(this, _instanceId)(_templateObject(), _classPrivateFieldGet(this, _config).actorName, _perf_hooks.performance.now());
+
+    _classPrivateFieldSet(this, _responseTopic, "".concat(_classPrivateFieldGet(this, _config).topic, "-res-").concat(_classPrivateFieldGet(this, _instanceId), "-").concat(process.pid));
 
     _classPrivateMethodGet(this, _initilizeConnection, _initilizeConnection2).call(this);
 
@@ -187,11 +191,17 @@ class Actor {
       responseAVRO
     } = _ref;
 
+    /**
+     * Repopulate the request on top of the stack when
+     * there is no link. Let the gateway timeout handle
+     * closing connection requests that never make it to
+     * the message queue
+     */
     if (!_classPrivateFieldGet(this, _link)) {
       return new Promise(resolve => setTimeout(() => process.nextTick(() => resolve(this.createRequest(request, {
         requestAVRO,
         responseAVRO
-      }))), 250));
+      }))), 500));
     }
 
     var correlationId = _classPrivateFieldGet(this, _config).uuidFn();
@@ -207,7 +217,7 @@ class Actor {
               type: request.action,
               replyTo: _classPrivateFieldGet(_this, _responseTopic),
               correlationId
-            }, (error, ok) => {
+            }, error => {
               if (error) {
                 reject({
                   error: "Could not satisfy request for unknown reason",
@@ -218,7 +228,6 @@ class Actor {
           } catch (error) {
             reject(_objectSpread(_objectSpread({}, error), {}, {
               name: "Actor::createRequest:sendToQueue[]",
-              message: error.message,
               status: 401,
               userError: true
             }));
@@ -241,55 +250,24 @@ class Actor {
 exports.default = Actor;
 
 var _log2 = function _log2(entry, severity) {
-  if (_classPrivateFieldGet(this, _logger) && _classPrivateFieldGet(this, _logger).submit) {
-    if (typeof entry === "string") {
-      entry = {
-        message: entry
-      };
-    }
+  var body = {
+    entry: typeof entry === "string" ? {
+      message: entry
+    } : entry,
+    service: _classPrivateFieldGet(this, _config).actorName,
+    timestamp: new Date().getTime()
+  };
 
-    var body = _objectSpread(_objectSpread({}, entry), {}, {
-      service: _classPrivateFieldGet(this, _config).actorName,
-      timestamp: new Date().getTime()
-    });
-
-    if (entry.stack) {
-      body.stack = entry.stack;
-    }
-
-    if (!severity || entry.error) {
-      severity = "error";
-    }
-
-    _classPrivateFieldGet(this, _logger).submit(body, severity);
-  } else {
-    if (severity in ["error", "info", "debug", "log"]) {
-      console[severity in ["error", "info", "debug", "log"] ? severity : "log"](entry);
-    }
+  if (entry.stack) {
+    body.stack = entry.stack;
   }
+
+  console[!severity || entry.error ? "error" : severity](body);
 };
 
 var _initilizeConnection2 = /*#__PURE__*/function () {
   var _initilizeConnection3 = _asyncToGenerator(function* () {
     var _this2 = this;
-
-    var instanceId;
-
-    if (_classPrivateFieldGet(this, _config).env !== "local") {
-      try {
-        instanceId = yield new _awsSdk.default.MetadataService().request("/latest/meta-data/instance-id").promise();
-      } catch (error) {
-        if (error) {
-          _classPrivateMethodGet(this, _log, _log2).call(this, {
-            error
-          });
-        }
-      }
-    }
-
-    _classPrivateFieldSet(this, _instanceId, instanceId ? instanceId : "".concat(_classPrivateFieldGet(this, _config).actorName, "_").concat(_perf_hooks.performance.now()));
-
-    _classPrivateFieldSet(this, _responseTopic, "".concat(_classPrivateFieldGet(this, _config).topic, "-res-").concat(_classPrivateFieldGet(this, _instanceId), "-").concat(process.pid));
 
     var detach = () => {
       var _classPrivateFieldGet2;
@@ -301,7 +279,7 @@ var _initilizeConnection2 = /*#__PURE__*/function () {
 
     var attach = /*#__PURE__*/function () {
       var _ref3 = _asyncToGenerator(function* (connection) {
-        connection.on("AMQP:reconnected", attach);
+        connection.on("MQ:reconnected", attach);
         connection.on("error", detach);
         connection.on("close", detach);
 
@@ -338,15 +316,17 @@ var _initilizeConnection2 = /*#__PURE__*/function () {
 }();
 
 var _setRequestsTTL2 = function _setRequestsTTL2(seconds) {
-  _classPrivateFieldSet(this, _requestTTLCheck, setInterval(() => {
-    var epochTime = new Date().getTime();
-    Object.keys(_classPrivateFieldGet(this, _responders)).forEach(key => {
-      if (_classPrivateFieldGet(this, _respondersExpires)[key] >= epochTime) {
-        delete _classPrivateFieldGet(this, _responders)[key];
-        delete _classPrivateFieldGet(this, _respondersExpires)[key];
-      }
-    });
-  }, seconds * 1000));
+  if (_classPrivateFieldGet(this, _requestTTLCheck) > 0) {
+    _classPrivateFieldSet(this, _requestTTLCheck, setInterval(() => {
+      var epochTime = new Date().getTime();
+      Object.keys(_classPrivateFieldGet(this, _responders)).forEach(key => {
+        if (_classPrivateFieldGet(this, _respondersExpires)[key] >= epochTime) {
+          delete _classPrivateFieldGet(this, _responders)[key];
+          delete _classPrivateFieldGet(this, _respondersExpires)[key];
+        }
+      });
+    }, seconds * 1000));
+  }
 };
 
 var _handleResponse2 = function _handleResponse2(_ref4) {
@@ -364,7 +344,7 @@ var _handleResponse2 = function _handleResponse2(_ref4) {
   } else {
     _classPrivateMethodGet(this, _log, _log2).call(this, {
       xRequestId: correlationId,
-      text: "--- No Responder for xRequestId: ".concat(correlationId, " ---")
+      message: "--- No Responder for xRequestId: ".concat(correlationId, " ---")
     });
   }
 

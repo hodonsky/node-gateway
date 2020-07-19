@@ -16,6 +16,8 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 /**
  * Instantiates RabbitMQ connection
  */
+var connectionCheckDelay = 1000;
+
 var _conn;
 
 function start(_x) {
@@ -49,7 +51,7 @@ function _start() {
         console.info("AMQP::Reconnecting");
         setTimeout(() => process.nextTick( /*#__PURE__*/_asyncToGenerator(function* () {
           return yield start();
-        })), 1000);
+        })), connectionCheckDelay);
       });
 
       if (_conn) {
@@ -62,7 +64,7 @@ function _start() {
       console.error("CONNECTION ERROR");
       setTimeout(() => process.nextTick( /*#__PURE__*/_asyncToGenerator(function* () {
         return yield start();
-      })), 1000);
+      })), connectionCheckDelay);
     }
   });
   return _start.apply(this, arguments);
