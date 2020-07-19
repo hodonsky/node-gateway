@@ -6,7 +6,7 @@ This is just the gateway side of the SOA so far, however it expects a message qu
 ## Initialize Your Gateway Server
 
 ```
-import Gateway from "node-soa"
+import Gateway from "@donsky/gateway"
 
 const actions = [ ...action ] //see below for action schema
 new Gateway(actions)
@@ -36,7 +36,7 @@ export MQ_QUEUE=gateway
 
 #### Code
 ```
-import Gateway from "node-soa"
+import Gateway from "@donsky/gateway"
 
 Gateway.configure({
   mq:{
@@ -83,7 +83,7 @@ export default {
 ##### Example:
 
 ```
-import Gateway from "node-soa"
+import Gateway from "@donsky/gateway"
 import action from "./action"
 
 Gateway.configure({port:80})
