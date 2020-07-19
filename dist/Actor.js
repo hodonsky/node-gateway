@@ -11,11 +11,11 @@ var _awsSdk = _interopRequireDefault(require("aws-sdk"));
 
 var _uuid = require("uuid");
 
-var _Connector = _interopRequireDefault(require("./Connector"));
-
-var _AVRO = require("./AVRO");
+var _avro = require("./avro");
 
 var _Logger = _interopRequireDefault(require("./Logger"));
+
+var _connector = _interopRequireDefault(require("./connector"));
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -202,7 +202,7 @@ class Actor {
           _classPrivateMethodGet(_this, _buildResponder, _buildResponder2).call(_this, correlationId, resolve, reject, responseAVRO);
 
           try {
-            _classPrivateFieldGet(_this, _link).sendToQueue(_classPrivateFieldGet(_this, _config).topic, yield (0, _AVRO.toAVRO)(request, requestAVRO), {
+            _classPrivateFieldGet(_this, _link).sendToQueue(_classPrivateFieldGet(_this, _config).topic, yield (0, _avro.toAVRO)(request, requestAVRO), {
               persistent: true,
               type: request.action,
               replyTo: _classPrivateFieldGet(_this, _responseTopic),
@@ -327,7 +327,7 @@ var _initilizeConnection2 = /*#__PURE__*/function () {
       };
     }();
 
-    attach(yield (0, _Connector.default)(_classPrivateFieldGet(this, _config).mq));
+    attach(yield (0, _connector.default)(_classPrivateFieldGet(this, _config).mq));
   });
 
   function _initilizeConnection2() {
@@ -386,7 +386,7 @@ var _buildResponder2 = function _buildResponder2(correlationId, resolve, reject,
     var {
       response,
       error
-    } = (0, _AVRO.fromAVRO)(content, avroResponse);
+    } = (0, _avro.fromAVRO)(content, avroResponse);
 
     if (error) {
       _classPrivateMethodGet(this, _log, _log2).call(this, _objectSpread({

@@ -1,7 +1,4 @@
-"use strict"; //import { tokenAuth, validateAPICert } from "Actions/auth"
-// import Logger  from "./Logger"
-// import config from "Config"
-// const logger = new Logger( config.logger )
+"use strict";
 
 Object.defineProperty(exports, "__esModule", {
   value: true
@@ -20,56 +17,6 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 
 var invalidRequestXRequestId = "000-00-00-00-000";
 var nonServiceXRequestId = "000-000-00-000-000";
-/**
- * Gets authentication type
- */
-//const getAuthType = key => ( key === "token" ? tokenAuth.name : validateAPICert.name )
-
-/**
- * Authenticates the user via either cert or token
- * @param { !Object } requirement - the permission requirement for the route
- * @param { string } scopeContext - the scope context to use for permission validation,
- * whose uuid is found in the body
- *
- * Regex for 'const key' is: "Find 1 or more word caracters before a literal period,
- * before 1 or more word chracters, before a literal period, before one or more word and
- * non-word chracters - globally"
- */
-// export const doAuth = ( requirement, scopeContext = null ) => async ( ctx, next ) => {
-//   const { response, header: { authorization: token }, path, request: { body } } = ctx
-//   const key = token |> /[\w]+\.[\w]+\.[\S]+/g.test ? "token" : "cert"
-//   const requirementScope = { path, scopeContext: {} }
-//   try {
-//     if ( scopeContext ){
-//       if ( !( scopeContext in body )){
-//         throw {
-//           name   : "Gateway::common:doAuth[Missing Scope Context Field in POST Body]",
-//           message: `The scope context field "${scopeContext}" is required for path "${path}!"`,
-//           status : 422
-//         }
-//       }
-//       requirementScope.scopeContext = {
-//         name: scopeContext,
-//         id  : body[scopeContext]
-//       }
-//     }
-//     if ( !token ){
-//       throw { message: "Unauthorized", status: 401 }
-//     }
-//     const { data: { userId, acl } } = await auth.createRequest(
-//       buildAction(
-//         getAuthType( key ),
-//         { [ key ]: token, requirement, requirementScope }
-//       )
-//     )
-//     ctx.state.userId = userId
-//     ctx.state.acl = acl
-//     return next()
-//   } catch ( error ) {
-//     handleError( response, error )
-//   }
-// }
-
 /**
  * Builds a service request action
  * @param { String } action - Service Action
@@ -102,9 +49,15 @@ var handleError = (response, error) => {
   response.set("x-request-id", xRequestId);
   response.status = status;
   response.body = {
-    error: userError && message ? message : "System Error!! If you do not understand why you are getting this error " + "please email support@apponboard.com and reference the [ 'x-request-id' ] " + "header in this response."
+    error: userError && message ? message : "System Error!! If you do not understand why you are getting this error " + "please email administrator and reference the [ 'x-request-id' ] " + "header in this response."
   };
 };
+/**
+ * Processes requestTransformers on an action related to the root context
+ * @param { Array<Function> } requestPipe - Array of functions
+ * @param { Object } ctx 
+ */
+
 
 exports.handleError = handleError;
 
@@ -136,6 +89,13 @@ var requestTransformer = /*#__PURE__*/function () {
     return _ref.apply(this, arguments);
   };
 }();
+/**
+ * Processes requestTransformers on an action related to the root context
+ * @param { Array<Function> } responsePipe - Array of functions
+ * @param { Object } data - Initial responseAVRO Object from queue
+ * @param { Object } ctx - Original CTX from request
+ */
+
 
 exports.requestTransformer = requestTransformer;
 

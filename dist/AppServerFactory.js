@@ -7,7 +7,7 @@ exports.default = void 0;
 
 var _cluster = _interopRequireDefault(require("cluster"));
 
-var _CreateApplication = _interopRequireDefault(require("./CreateApplication"));
+var _createApplication = _interopRequireDefault(require("./createApplication"));
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -84,7 +84,7 @@ var _startApp2 = function _startApp2() {
 };
 
 var _createWorker2 = function _createWorker2() {
-  var app = (0, _CreateApplication.default)(_objectSpread({}, _classPrivateFieldGet(this, _config))),
+  var app = (0, _createApplication.default)(_objectSpread({}, _classPrivateFieldGet(this, _config))),
       server = app.listen(_classPrivateFieldGet(this, _config).port, () => {
     // GATEWAY TIMEOUT - 504
     server.setTimeout(120000);
