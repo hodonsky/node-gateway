@@ -1,2 +1,31 @@
-"use strict";Object.defineProperty(exports,"__esModule",{value:!0}),exports.fromAVRO=void 0;var _avsc=_interopRequireDefault(require("avsc")),_factories=require("./factories");function _interopRequireDefault(a){return a&&a.__esModule?a:{default:a}}var fromAVRO=(a,b)=>{try{var c=_avsc.default.Type.forSchema([(0,_factories.actionContractFactory)("ResponseContract",b)]);return c.fromBuffer(a)}catch(a){throw{name:(null===a||void 0===a?void 0:a.name)||"Transformer::fromAVRO:failed[type:".concat(type,"]"),message:(null===a||void 0===a?void 0:a.message)||"Something went wrong in unbuffering...",stack:(null===a||void 0===a?void 0:a.stack)||"",status:(null===a||void 0===a?void 0:a.status)||500,userError:(null===a||void 0===a?void 0:a.userError)||!1}}};exports.fromAVRO=fromAVRO;
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.fromAVRO = void 0;
+
+var _avsc = _interopRequireDefault(require("avsc"));
+
+var _factories = require("./factories");
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+var fromAVRO = (content, AVRORule) => {
+  try {
+    var Type = _avsc.default.Type.forSchema([(0, _factories.actionContractFactory)("ResponseContract", AVRORule)]);
+
+    return Type.fromBuffer(content);
+  } catch (error) {
+    throw {
+      name: (error === null || error === void 0 ? void 0 : error.name) || "Transformer::fromAVRO:failed[type:".concat(type, "]"),
+      message: (error === null || error === void 0 ? void 0 : error.message) || "Something went wrong in unbuffering...",
+      stack: (error === null || error === void 0 ? void 0 : error.stack) || "",
+      status: (error === null || error === void 0 ? void 0 : error.status) || 500,
+      userError: (error === null || error === void 0 ? void 0 : error.userError) || false
+    };
+  }
+};
+
+exports.fromAVRO = fromAVRO;
 //# sourceMappingURL=from.js.map

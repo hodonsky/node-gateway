@@ -1,8 +1,74 @@
-"use strict";/**
+"use strict";
+/**
  * A standard action contract factory
- */Object.defineProperty(exports,"__esModule",{value:!0}),exports.errorContractFactory=exports.responseContractFactory=exports.actionEmptyContractFactory=exports.actionContractFactory=void 0;var actionContractFactory=(a,b)=>({name:a,type:"record",fields:[{name:"action",type:"string"},{name:"data",type:{type:"record",fields:b}}]});/**
+ */
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.errorContractFactory = exports.responseContractFactory = exports.actionEmptyContractFactory = exports.actionContractFactory = void 0;
+
+var actionContractFactory = (name, fields) => ({
+  name,
+  type: "record",
+  fields: [{
+    name: "action",
+    type: "string"
+  }, {
+    name: "data",
+    type: {
+      type: "record",
+      fields
+    }
+  }]
+});
+/**
  * An action contract factory for empty parameters
- */exports.actionContractFactory=actionContractFactory;var actionEmptyContractFactory=a=>({name:a,type:"record",fields:[{name:"action",type:"string"}]});/**
+ */
+
+
+exports.actionContractFactory = actionContractFactory;
+
+var actionEmptyContractFactory = name => ({
+  name,
+  type: "record",
+  fields: [{
+    name: "action",
+    type: "string"
+  }]
+});
+/**
  * A standard response contract factory
- */exports.actionEmptyContractFactory=actionEmptyContractFactory;var responseContractFactory=(a,b)=>({name:a,type:"record",fields:[{name:"response",type:{type:"record",fields:b}}]});exports.responseContractFactory=responseContractFactory;var errorContractFactory=(a,b)=>({name:a,type:"record",fields:[{name:"error",type:{type:"record",fields:b}}]});exports.errorContractFactory=errorContractFactory;
+ */
+
+
+exports.actionEmptyContractFactory = actionEmptyContractFactory;
+
+var responseContractFactory = (name, fields) => ({
+  name,
+  type: "record",
+  fields: [{
+    name: "response",
+    type: {
+      type: "record",
+      fields
+    }
+  }]
+});
+
+exports.responseContractFactory = responseContractFactory;
+
+var errorContractFactory = (name, fields) => ({
+  name,
+  type: "record",
+  fields: [{
+    name: "error",
+    type: {
+      type: "record",
+      fields
+    }
+  }]
+});
+
+exports.errorContractFactory = errorContractFactory;
 //# sourceMappingURL=factories.js.map

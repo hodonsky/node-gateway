@@ -1,9 +1,83 @@
-"use strict";Object.defineProperty(exports,"__esModule",{value:!0}),exports.isContentValidType=void 0;function ownKeys(a,b){var c=Object.keys(a);if(Object.getOwnPropertySymbols){var d=Object.getOwnPropertySymbols(a);b&&(d=d.filter(function(b){return Object.getOwnPropertyDescriptor(a,b).enumerable})),c.push.apply(c,d)}return c}function _objectSpread(a){for(var b,c=1;c<arguments.length;c++)b=null==arguments[c]?{}:arguments[c],c%2?ownKeys(Object(b),!0).forEach(function(c){_defineProperty(a,c,b[c])}):Object.getOwnPropertyDescriptors?Object.defineProperties(a,Object.getOwnPropertyDescriptors(b)):ownKeys(Object(b)).forEach(function(c){Object.defineProperty(a,c,Object.getOwnPropertyDescriptor(b,c))});return a}function _defineProperty(a,b,c){return b in a?Object.defineProperty(a,b,{value:c,enumerable:!0,configurable:!0,writable:!0}):a[b]=c,a}function asyncGeneratorStep(a,b,c,d,e,f,g){try{var h=a[f](g),i=h.value}catch(a){return void c(a)}h.done?b(i):Promise.resolve(i).then(d,e)}function _asyncToGenerator(a){return function(){var b=this,c=arguments;return new Promise(function(d,e){function _next(a){asyncGeneratorStep(f,d,e,_next,_throw,"next",a)}function _throw(a){asyncGeneratorStep(f,d,e,_next,_throw,"throw",a)}var f=a.apply(b,c);_next(void 0)})}}var errTemplate={name:"Transformer::isValid:avroErrorHook",status:500,userError:!1},isContentValidType=/*#__PURE__*/function(){var a=_asyncToGenerator(function*(a,b){return yield a.isValid(b,{// DO NOT CHANGE: This assures there is no unwanted data making it through the message queue
-noUndeclaredFields:!0,/**
-     * Handles errors in avro schema checking
-     * @param { Array<string> } location - location of the error
-     * @param { Object } errorBlock - The actual error block
-     * @param { String } recordType - Expected AVRO type
-     * @param { Object } record - The record
-     */errorHook:(a,b,c)=>{var d=c.toJSON();if(!d.fields)throw _objectSpread(_objectSpread({},errTemplate),{},{message:"For ".concat(a.join("."),", expected: ").concat(d,", got: ").concat(typeof b)});else if("object"==typeof b)Object.keys(b).every(b=>{if(!d.fields.some(a=>a.name===b))throw _objectSpread(_objectSpread({},errTemplate),{},{message:0<a.length?"[".concat(a.join("."),"] - Field [").concat(b,"] is not allowed"):"Field [".concat(b,"] is not allowed")});return!0}),d.fields.every(c=>{if(typeof b[c.name]!==c.type)throw _objectSpread(_objectSpread({},errTemplate),{},{message:"For ".concat(a[a.length-1],".").concat(c.name,", expected :").concat(c.type,", got: ").concat(typeof b[c.name])});return!0});else throw _objectSpread(_objectSpread({},errTemplate),{},{message:"Failed lookup. Likely does not exist or is undefined in response: [".concat(a.join("."),"]")});return!0}})});return function isContentValidType(){return a.apply(this,arguments)}}();exports.isContentValidType=isContentValidType;
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.isContentValidType = void 0;
+
+function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); keys.push.apply(keys, symbols); } return keys; }
+
+function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys(Object(source), true).forEach(function (key) { _defineProperty(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
+
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
+function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
+
+function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
+
+var errTemplate = {
+  name: "Transformer::isValid:avroErrorHook",
+  status: 500,
+  userError: false
+};
+
+var isContentValidType = /*#__PURE__*/function () {
+  var _ref = _asyncToGenerator(function* (type, obj) {
+    var options = {
+      // DO NOT CHANGE: This assures there is no unwanted data making it through the message queue
+      noUndeclaredFields: true,
+
+      /**
+       * Handles errors in avro schema checking
+       * @param { Array<string> } location - location of the error
+       * @param { Object } errorBlock - The actual error block
+       * @param { String } recordType - Expected AVRO type
+       * @param { Object } record - The record
+       */
+      errorHook: (location, errorBlock, recordType) => {
+        var typeJSON = recordType.toJSON();
+
+        if (typeJSON.fields) {
+          if (typeof errorBlock === "object") {
+            Object.keys(errorBlock).every(fieldName => {
+              if (!typeJSON.fields.some(field => field.name === fieldName)) {
+                throw _objectSpread(_objectSpread({}, errTemplate), {}, {
+                  message: location.length > 0 ? "[".concat(location.join("."), "] - Field [").concat(fieldName, "] is not allowed") : "Field [".concat(fieldName, "] is not allowed")
+                });
+              }
+
+              return true;
+            });
+            typeJSON.fields.every(field => {
+              if (typeof errorBlock[field.name] !== field.type) {
+                throw _objectSpread(_objectSpread({}, errTemplate), {}, {
+                  message: "For ".concat(location[location.length - 1], ".").concat(field.name, ", expected :").concat(field.type, ", got: ").concat(typeof errorBlock[field.name])
+                });
+              }
+
+              return true;
+            });
+          } else {
+            throw _objectSpread(_objectSpread({}, errTemplate), {}, {
+              message: "Failed lookup. Likely does not exist or is undefined in response: [".concat(location.join("."), "]")
+            });
+          }
+        } else {
+          throw _objectSpread(_objectSpread({}, errTemplate), {}, {
+            message: "For ".concat(location.join("."), ", expected: ").concat(typeJSON, ", got: ").concat(typeof errorBlock)
+          });
+        }
+
+        return true;
+      }
+    };
+    return yield type.isValid(obj, options);
+  });
+
+  return function isContentValidType(_x, _x2) {
+    return _ref.apply(this, arguments);
+  };
+}();
+
+exports.isContentValidType = isContentValidType;
 //# sourceMappingURL=typeCheck.js.map

@@ -1,6 +1,6 @@
 {
   "name": "@donsky/node-gateway",
-  "version": "0.2.4",
+  "version": "0.2.5",
   "description": "Node web server (koajs), extending routes to a message queue (amqp by default) of 'topic' and 'action'.",
   "main": "./dist/Server.js",
   "directories": {
@@ -91,13 +91,6 @@
           "targets": {
             "esmodules": true
           }
-        }
-      ],
-      [
-        "minify",
-        {
-          "keepFnName": true,
-          "keepClassName": true
         }
       ]
     ],

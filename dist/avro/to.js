@@ -1,2 +1,54 @@
-"use strict";Object.defineProperty(exports,"__esModule",{value:!0}),exports.toAVRO=void 0;var _avsc=_interopRequireDefault(require("avsc")),_typeCheck=require("./typeCheck"),_factories=require("./factories");function _interopRequireDefault(a){return a&&a.__esModule?a:{default:a}}function asyncGeneratorStep(a,b,c,d,e,f,g){try{var h=a[f](g),i=h.value}catch(a){return void c(a)}h.done?b(i):Promise.resolve(i).then(d,e)}function _asyncToGenerator(a){return function(){var b=this,c=arguments;return new Promise(function(d,e){function _next(a){asyncGeneratorStep(f,d,e,_next,_throw,"next",a)}function _throw(a){asyncGeneratorStep(f,d,e,_next,_throw,"throw",a)}var f=a.apply(b,c);_next(void 0)})}}var toAVRO=/*#__PURE__*/function(){var a=_asyncToGenerator(function*(a,b){try{var c=_avsc.default.Type.forSchema([(0,_factories.actionContractFactory)("RequestContract",b)]);try{if(yield(0,_typeCheck.isContentValidType)(c,a))return c.toBuffer(a)}catch(a){throw{message:a.message,name:"Transformer::toAVRO:Types[isContentValidType]",stack:(null===a||void 0===a?void 0:a.stack)||"",status:500}}}catch(a){throw{name:(null===a||void 0===a?void 0:a.name)||"Transformer::toAVRO:failed[type:".concat(type,"]"),message:(null===a||void 0===a?void 0:a.message)||"Something went wrong in buffering...",stack:(null===a||void 0===a?void 0:a.stack)||"",status:(null===a||void 0===a?void 0:a.status)||500,userError:(null===a||void 0===a?void 0:a.userError)||!1}}});return function toAVRO(){return a.apply(this,arguments)}}();exports.toAVRO=toAVRO;
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.toAVRO = void 0;
+
+var _avsc = _interopRequireDefault(require("avsc"));
+
+var _typeCheck = require("./typeCheck");
+
+var _factories = require("./factories");
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
+
+function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
+
+var toAVRO = /*#__PURE__*/function () {
+  var _ref = _asyncToGenerator(function* (obj, AVRORule) {
+    try {
+      var Type = _avsc.default.Type.forSchema([(0, _factories.actionContractFactory)("RequestContract", AVRORule)]);
+
+      try {
+        if (yield (0, _typeCheck.isContentValidType)(Type, obj)) {
+          return Type.toBuffer(obj);
+        }
+      } catch (error) {
+        throw {
+          message: error.message,
+          name: "Transformer::toAVRO:Types[isContentValidType]",
+          stack: (error === null || error === void 0 ? void 0 : error.stack) || "",
+          status: 500
+        };
+      }
+    } catch (error) {
+      throw {
+        name: (error === null || error === void 0 ? void 0 : error.name) || "Transformer::toAVRO:failed[type:".concat(type, "]"),
+        message: (error === null || error === void 0 ? void 0 : error.message) || "Something went wrong in buffering...",
+        stack: (error === null || error === void 0 ? void 0 : error.stack) || "",
+        status: (error === null || error === void 0 ? void 0 : error.status) || 500,
+        userError: (error === null || error === void 0 ? void 0 : error.userError) || false
+      };
+    }
+  });
+
+  return function toAVRO(_x, _x2) {
+    return _ref.apply(this, arguments);
+  };
+}();
+
+exports.toAVRO = toAVRO;
 //# sourceMappingURL=to.js.map

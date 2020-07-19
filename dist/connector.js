@@ -1,4 +1,78 @@
-"use strict";var _amqplib=_interopRequireDefault(require("amqplib"));Object.defineProperty(exports,"__esModule",{value:!0}),exports.default=void 0;function _interopRequireDefault(a){return a&&a.__esModule?a:{default:a}}function asyncGeneratorStep(a,b,c,d,e,f,g){try{var h=a[f](g),i=h.value}catch(a){return void c(a)}h.done?b(i):Promise.resolve(i).then(d,e)}function _asyncToGenerator(a){return function(){var b=this,c=arguments;return new Promise(function(d,e){function _next(a){asyncGeneratorStep(f,d,e,_next,_throw,"next",a)}function _throw(a){asyncGeneratorStep(f,d,e,_next,_throw,"throw",a)}var f=a.apply(b,c);_next(void 0)})}}/**
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = void 0;
+
+var _amqplib = _interopRequireDefault(require("amqplib"));
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
+
+function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
+
+/**
  * Instantiates RabbitMQ connection
- */var _conn,connectionCheckDelay=1e3;function start(){return _start.apply(this,arguments)}function _start(){return _start=_asyncToGenerator(function*(a){var{username:b,password:c,hostname:d,port:e}=a;try{var f=yield _amqplib.default.connect({protocol:"amqp",hostname:d,port:e,username:b,password:c,heartbeat:20});return f.on("error",a=>{"Connection closing"!==a.message&&console.error("AMQP::Connection: "+JSON.stringify(a))}),f.on("close",()=>{console.info("AMQP::Reconnecting"),setTimeout(()=>process.nextTick(/*#__PURE__*/_asyncToGenerator(function*(){return yield start()})),connectionCheckDelay)}),_conn&&_conn.emit("AMQP:reconnected",f),_conn=f,_conn}catch(a){console.error("CONNECTION ERROR"),setTimeout(()=>process.nextTick(/*#__PURE__*/_asyncToGenerator(function*(){return yield start()})),connectionCheckDelay)}}),_start.apply(this,arguments)}var _default=/*#__PURE__*/_asyncToGenerator(function*(){return _conn?_conn:yield start(...arguments)});exports.default=_default;
+ */
+var connectionCheckDelay = 1000;
+
+var _conn;
+
+function start(_x) {
+  return _start.apply(this, arguments);
+}
+
+function _start() {
+  _start = _asyncToGenerator(function* (_ref) {
+    var {
+      username,
+      password,
+      hostname,
+      port
+    } = _ref;
+
+    try {
+      var connection = yield _amqplib.default.connect({
+        protocol: "amqp",
+        hostname,
+        port,
+        username,
+        password,
+        heartbeat: 20
+      });
+      connection.on("error", err => {
+        if (err.message !== "Connection closing") {
+          console.error("AMQP::Connection: " + JSON.stringify(err));
+        }
+      });
+      connection.on("close", () => {
+        console.info("AMQP::Reconnecting");
+        setTimeout(() => process.nextTick( /*#__PURE__*/_asyncToGenerator(function* () {
+          return yield start();
+        })), connectionCheckDelay);
+      });
+
+      if (_conn) {
+        _conn.emit("AMQP:reconnected", connection);
+      }
+
+      _conn = connection;
+      return _conn;
+    } catch (error) {
+      console.error("CONNECTION ERROR");
+      setTimeout(() => process.nextTick( /*#__PURE__*/_asyncToGenerator(function* () {
+        return yield start();
+      })), connectionCheckDelay);
+    }
+  });
+  return _start.apply(this, arguments);
+}
+
+var _default = /*#__PURE__*/_asyncToGenerator(function* () {
+  return _conn ? _conn : yield start(...arguments);
+});
+
+exports.default = _default;
 //# sourceMappingURL=connector.js.map
