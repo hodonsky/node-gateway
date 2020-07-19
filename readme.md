@@ -5,7 +5,13 @@ This is the gateway side of the SOA, it requires a message queue, and associated
 ## Initialize Your Gateway Server
 
 ```javascript
+// -- CommonJS --
+const Gateway = require( "@donsky/node-gateway" ).default
+
+// -- ESNext --
 import Gateway from "@donsky/node-gateway"
+
+
 new Gateway(/*[action1[,action2]]*/)
 ```
 
@@ -86,25 +92,30 @@ const optional = {
     ( response ) => ( { lastName: response } )
   ]
 }
+
+// -- CommonJS --
+module.exports = Object.assign( {}, required, optional )
+// -- ESNext --
 export default { ...required, ...optional }
 ```
 
 #### Example:
 
 ```javascript
+// -- CommonJS --
+const action = require( "./action" )
+// -- ESNext --
 import action from "./action"
 
 Gateway.configure({port:80})
 new Gateway([action])
 ```
-<br/>
 
----
----
+<br/>
 
 <br/>
 
 > Notes:
-> - Without any 'actions' the server should start, but it won't do much
-> - Port "80" is not allowed to be exposed on a mac, so the default is actually 8080: This can be found in (./lib/config.js).port
+> - Without any __actions__ the server should start, but it won't do much
+> - Port __80__ is not allowed to be exposed on a mac, so the default is actually 8080: This can be found in __(./lib/config.js).port__
 > - This works well with PM2 

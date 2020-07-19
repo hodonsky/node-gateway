@@ -68,7 +68,9 @@ var _startApp2 = function _startApp2() {
     if (_cluster.default.isMaster) {
       var _ref, _ref2, _ref3;
 
-      _classPrivateFieldGet(this, _config).cpus.forEach(() => _cluster.default.fork());
+      for (var i = 0; i <= _classPrivateFieldGet(this, _config).cpus; i++) {
+        _cluster.default.fork();
+      }
 
       console.info((_ref = (_ref2 = (_ref3 = "Workers: " + _cluster.default.workers, Object.keys(_ref3)), _ref2.map(id => "- ".concat(_cluster.default.workers[id].process.pid))), _ref.join(", ")));
     } else {
