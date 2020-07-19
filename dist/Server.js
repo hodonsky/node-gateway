@@ -5,7 +5,7 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.default = void 0;
 
-var _AppServerFactory = _interopRequireDefault(require("./AppServerFactory"));
+var _createApplication = _interopRequireDefault(require("./createApplication"));
 
 var _config = _interopRequireDefault(require("./config"));
 
@@ -25,11 +25,11 @@ class _default {
   }
 
   constructor(actions) {
-    var appServer = new _AppServerFactory.default(_objectSpread(_objectSpread({}, config), {}, {
+    var app = (0, _createApplication.default)(_objectSpread(_objectSpread({}, config), {}, {
       verbose: config.env === "local",
       actions
     }));
-    return appServer.instance();
+    return app.listen(config.port, () => console.info("App listening on:", config.port));
   }
 
 }

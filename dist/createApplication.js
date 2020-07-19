@@ -37,8 +37,8 @@ var _default = config => {
   var {
     verbose,
     logger: loggerConfig,
-    env,
-    actions,
+    env = "local",
+    actions = [],
     mq
   } = config;
   var app = new _koa.default();
