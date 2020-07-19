@@ -1,6 +1,6 @@
 {
   "name": "@donsky/node-gateway",
-  "version": "0.2.0",
+  "version": "0.2.1",
   "description": "Node web server (koajs), extending routes to a message queue (amqp by default) of 'topic' and 'action'.",
   "main": "./dist/Server.js",
   "directories": {
@@ -8,7 +8,9 @@
   },
   "scripts": {
     "test": "mocha --exit --require ./node_modules/babel-core/register",
-    "build": "npx babel --config-file ./babel.json --ignore 'node_modules/**' --ignore './*.test.js' --ignore 'tests/**' --out-dir ./dist ./lib"
+    "build": "npm run babel && npm run parcel",
+    "babel": "npx babel --ignore 'node_modules/**' --ignore './*.test.js' --ignore 'tests/**' --out-dir ./dist ./lib",
+    "parcel": "npx parcel build ./dist/Server.js --no-cache --no-source-maps -d ./bin && rm-rf ./dist"
   },
   "repository": {
     "type": "git",
@@ -56,6 +58,7 @@
     "uuid": "^8.2.0"
   },
   "devDependencies": {
+    "babel-preset-minify": "^0.5.1",
     "babel-plugin-module-resolver": "^4.0.0",
     "@babel/cli": "^7.10.4",
     "@babel/core": "^7.10.4",
@@ -78,7 +81,52 @@
     "chai": "^4.2.0",
     "chai-as-promised": "^7.1.1",
     "mocha": "^8.0.1",
+    "parcel-bundler": "1.12.4",
     "rimraf": "^3.0.2",
     "sinon": "^9.0.2"
+  },
+  "babel": {
+    "presets": [
+      [
+        "@babel/preset-env",
+        {
+          "targets": {
+            "esmodules": true
+          }
+        }
+      ],
+      [
+        "minify",
+        {
+          "keepFnName": true,
+          "keepClassName": true
+        }
+      ]
+    ],
+    "plugins": [
+      "@babel/plugin-proposal-class-properties",
+      "@babel/plugin-proposal-private-methods",
+      "@babel/plugin-proposal-optional-chaining",
+      "@babel/plugin-proposal-export-default",
+      "@babel/plugin-proposal-export-default-from",
+      "@babel/plugin-proposal-export-namespace",
+      "@babel/plugin-proposal-export-namespace-from",
+      "@babel/plugin-proposal-nullish-coalescing-operator",
+      "@babel/plugin-proposal-throw-expressions",
+      "@babel/plugin-proposal-do-expressions",
+      "@babel/plugin-proposal-function-bind",
+      "@babel/plugin-proposal-partial-application",
+      "@babel/plugin-proposal-object-rest-spread",
+      [
+        "@babel/plugin-proposal-pipeline-operator",
+        {
+          "proposal": "fsharp"
+        }
+      ]
+    ],
+    "ignore": [
+      "node_modules/**/*"
+    ],
+    "sourceMaps": true
   }
 }
