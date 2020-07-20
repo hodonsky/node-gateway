@@ -63,10 +63,15 @@ var _default = config => {
     // }
 
     if (!actors[val.topic]) {
-      actors[val.topic] = new _Actor.default({
-        topic: val.topic,
-        mq
-      });
+      try {
+        actors[val.topic] = new _Actor.default({
+          topic: val.topic,
+          mq
+        });
+      } catch (err) {
+        console.error("Action [".concat(val.name, "] failed to create new actor"));
+        console.log(JSON.stringify(val));
+      }
     }
 
     val.actor = actors[val.topic];
