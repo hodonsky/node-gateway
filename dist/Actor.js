@@ -343,7 +343,7 @@ var _handleResponse2 = function _handleResponse2(_ref4) {
   }
 };
 
-var _buildResponder2 = function _buildResponder2(correlationId, resolve, reject, avroResponse) {
+var _buildResponder2 = function _buildResponder2(correlationId, resolve, reject, responseAVRO) {
   _classPrivateFieldGet(this, _responders)[correlationId] = (_ref5) => {
     var {
       content,
@@ -352,7 +352,7 @@ var _buildResponder2 = function _buildResponder2(correlationId, resolve, reject,
     var {
       response,
       error
-    } = (0, _avro.fromAVRO)(content, avroResponse);
+    } = (0, _avro.fromAVRO)(content, responseAVRO, true);
 
     if (error) {
       _classPrivateMethodGet(this, _log, _log2).call(this, _objectSpread({

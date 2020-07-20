@@ -11,10 +11,11 @@ var _factories = require("./factories");
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-var fromAVRO = (content, AVRORule) => {
-  try {
-    var Type = _avsc.default.Type.forSchema([(0, _factories.actionContractFactory)("ResponseContract", AVRORule)]);
+var fromAVRO = function fromAVRO(content, AVRORule) {
+  var isResponse = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : false;
 
+  try {
+    var Type = !isResponse ? _avsc.default.Type.forSchema([(0, _factories.actionContractFactory)("RequestContract", AVRORule)]) : _avsc.default.Type.forSchema([(0, _factories.responseContractFactory)("ResponseContract", AVRORule)]);
     return Type.fromBuffer(content);
   } catch (error) {
     throw {

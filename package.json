@@ -1,6 +1,6 @@
 {
   "name": "@donsky/node-gateway",
-  "version": "0.2.8",
+  "version": "0.2.9",
   "description": "Node web server (koajs), extending routes to a message queue (amqp 0-9-1) of 'topic' and 'action'.",
   "main": "./dist/Server.js",
   "directories": {
@@ -51,7 +51,7 @@
   "homepage": "https://github.com/hodonsky/node-gateway#readme",
   "engines": {
     "node": ">=12.13.1",
-    "npm": ">=6.14.5"
+    "npm": ">=6.14.6"
   },
   "dependencies": {
     "amqplib": "^0.5.6",
