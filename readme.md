@@ -73,14 +73,19 @@ const required = {
   topic       : "consumerTopic",
   method      : "get"|"post"|"put"|"put"|"update"|"delete",
   route       : "/route-path",
-  name        : "CONSUMER_ACTION_NAME",
+  name        : "consumerActionName",
   requestAVRO : [
     { name: "firstName", type: "string" }
   ],
   responseAVRO: [
     { name: "response", type: "string" }
   ],
+  errorAVRO:[
+    { name: "error", type: "string" }
+  ]
 }
+> I share a file with my service
+
 /**
  * Optional Attributes
  */

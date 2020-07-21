@@ -21,7 +21,12 @@ var config = _objectSpread({}, _config.default);
 
 class _default {
   static configure(updates) {
-    config = _objectSpread(_objectSpread({}, config), updates);
+    config = _objectSpread(_objectSpread(_objectSpread({}, updates), config), Object.entries(updates).reduce((mix, _ref) => {
+      var [key, val] = _ref;
+      return _objectSpread(_objectSpread({}, mix), {}, {
+        [key]: config[key] ? _objectSpread(_objectSpread({}, config[key]), val) : val
+      });
+    }, {}));
   }
 
   constructor(actions) {
