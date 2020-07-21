@@ -166,7 +166,7 @@ var handleRequest = action => /*#__PURE__*/function () {
       });
       response.set("x-request-id", xRequestId);
       response.status = 200;
-      response.body = responseTransformer(responseTransformers, data, ctx);
+      response.body = yield responseTransformer(responseTransformers, data, ctx);
     } catch (error) {
       handleError(response, error);
     }
