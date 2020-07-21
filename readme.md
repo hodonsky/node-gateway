@@ -3,11 +3,8 @@
 This is the gateway side of the SOA.
 
 ### Prerequisites ( standard AMQP 0-9-1 ):
-- AMQP Server/Cluster accepting connections with credentials.
-
-    `( see below for 'Local' setup )`
-
-- Consumer Service(s)/Cluster(s) responding on responseTopic with CorrelationID. ( coming soon: @donsky/node-consumer )
+- AMQP Server/Cluster accepting connections with credentials. ( see  [`Local`](#Local) setup )
+- Consumer Service(s)/Cluster(s) responding on responseTopic with CorrelationID. ([@donsky/node-service](https://www.npmjs.com/package/@donsky/node-service) )
 
 
 ### Impliments:
