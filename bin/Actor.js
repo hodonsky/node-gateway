@@ -11,7 +11,7 @@ var _uuid = require("uuid");
 
 var _connector = _interopRequireDefault(require("./connector"));
 
-var _avro = require("./avro");
+var _nodeAvro = require("@donsky/node-avro");
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -174,7 +174,8 @@ class Actor {
 
     var {
       requestAVRO,
-      responseAVRO
+      responseAVRO,
+      errorAVRO
     } = _ref;
 
     /**
@@ -186,7 +187,8 @@ class Actor {
     if (!_classPrivateFieldGet(this, _link)) {
       return new Promise(resolve => setTimeout(() => process.nextTick(() => resolve(this.createRequest(request, {
         requestAVRO,
-        responseAVRO
+        responseAVRO,
+        errorAVRO
       }))), 500));
     }
 
@@ -195,10 +197,10 @@ class Actor {
     return new Promise( /*#__PURE__*/function () {
       var _ref2 = _asyncToGenerator(function* (resolve, reject) {
         try {
-          _classPrivateMethodGet(_this, _buildResponder, _buildResponder2).call(_this, correlationId, resolve, reject, responseAVRO);
+          _classPrivateMethodGet(_this, _buildResponder, _buildResponder2).call(_this, correlationId, resolve, reject, responseAVRO, errorAVRO);
 
           try {
-            _classPrivateFieldGet(_this, _link).sendToQueue(_classPrivateFieldGet(_this, _config).topic, yield (0, _avro.toAVRO)(request, requestAVRO), {
+            _classPrivateFieldGet(_this, _link).sendToQueue(_classPrivateFieldGet(_this, _config).topic, yield (0, _nodeAvro.toAVRO)(request, requestAVRO), {
               persistent: true,
               type: request.action,
               replyTo: _classPrivateFieldGet(_this, _responseTopic),
@@ -343,16 +345,24 @@ var _handleResponse2 = function _handleResponse2(_ref4) {
   }
 };
 
-var _buildResponder2 = function _buildResponder2(correlationId, resolve, reject, responseAVRO) {
+var _buildResponder2 = function _buildResponder2(correlationId, resolve, reject, responseAVRO, errorAVRO) {
   _classPrivateFieldGet(this, _responders)[correlationId] = (_ref5) => {
     var {
       content,
       error: responderError
     } = _ref5;
-    var {
-      response,
-      error
-    } = (0, _avro.fromAVRO)(content, responseAVRO, true);
+    var response, error;
+
+    try {
+      response = (0, _nodeAvro.fromAVRO)(content, responseAVRO, {
+        response: true
+      });
+    } catch (err) {
+      console.debug(err);
+      error = (0, _nodeAvro.fromAVRO)(content, errorAVRO, {
+        error: true
+      });
+    }
 
     if (error) {
       _classPrivateMethodGet(this, _log, _log2).call(this, _objectSpread({

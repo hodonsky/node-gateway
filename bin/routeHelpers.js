@@ -150,6 +150,7 @@ var handleRequest = action => /*#__PURE__*/function () {
       name,
       requestAVRO,
       responseAVRO,
+      errorAVRO,
       requestTransformers = [],
       responseTransformers = []
     } = action;
@@ -160,7 +161,8 @@ var handleRequest = action => /*#__PURE__*/function () {
         xRequestId
       } = yield actor.createRequest(buildAction(name, yield requestTransformer(requestTransformers, ctx)), {
         requestAVRO,
-        responseAVRO
+        responseAVRO,
+        errorAVRO
       });
       response.set("x-request-id", xRequestId);
       response.status = 200;
