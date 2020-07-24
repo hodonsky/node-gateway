@@ -17,10 +17,6 @@ This is the gateway side of the SOA.
 ## Initialize Your Gateway Server
 
 ```javascript
-// -- CommonJS --
-const Gateway = require( "@donsky/node-gateway" ).default
-
-// -- ESNext --
 import Gateway from "@donsky/node-gateway"
 
 
@@ -109,18 +105,12 @@ const optional = {
   ]
 }
 
-// -- CommonJS --
-module.exports = Object.assign( {}, required, optional )
-// -- ESNext --
 export default { ...required, ...optional }
 ```
 
 #### Example:
 
 ```javascript
-// -- CommonJS --
-const action = require( "./action" )
-// -- ESNext --
 import action from "./action"
 
 Gateway.configure({port:80})
