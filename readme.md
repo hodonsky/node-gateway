@@ -37,8 +37,8 @@ export PORT=80
 export MQ_PROTOCOL=amqp
 export MQ_HOSTNAME=rabbitmq
 export MQ_PORT=5672
-export MQ_USERNAME=admin
-export MQ_PASSWORD=Abcd1234
+export MQ_USERNAME=defaultAdmin
+export MQ_PASSWORD=SomePassword
 ```
 ###### The hostname can be a URI or a local hostname, in this example, _'rabbitmq'_ is my docker container hostname. During deploy this would change and be environment specific.
 
@@ -46,8 +46,8 @@ export MQ_PASSWORD=Abcd1234
 ```javascript
 Gateway.configure({
   mq:{
-    username: "admin",
-    password: "Abcd1234"
+    username: "defaultAdmin",
+    password: "SomePassword"
     hostname: "rabbitmq"
     port    : 5672
   },
@@ -74,9 +74,6 @@ const required = {
   ],
   responseAVRO: [
     { name: "response", type: "string" }
-  ],
-  errorAVRO:[
-    { name: "error", type: "string" }
   ]
 }
 > I share a file with my service
@@ -160,12 +157,3 @@ services:
      - rabbitmq
     restart: on-failure
 ```
-
-
-### TODO:
-- Add Base Class and events emitter to allow for:
-- Add Event based interactions
-- Add ability to cross over services at the gateway
-Options:
-  - Allow nesting
-  - Allow chaining
