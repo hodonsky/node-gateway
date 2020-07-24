@@ -5,6 +5,10 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.requestServicesActions = exports.handleRequest = exports.responseTransformer = exports.requestTransformer = exports.handleError = void 0;
 
+function _objectWithoutProperties(source, excluded) { if (source == null) return {}; var target = _objectWithoutPropertiesLoose(source, excluded); var key, i; if (Object.getOwnPropertySymbols) { var sourceSymbolKeys = Object.getOwnPropertySymbols(source); for (i = 0; i < sourceSymbolKeys.length; i++) { key = sourceSymbolKeys[i]; if (excluded.indexOf(key) >= 0) continue; if (!Object.prototype.propertyIsEnumerable.call(source, key)) continue; target[key] = source[key]; } } return target; }
+
+function _objectWithoutPropertiesLoose(source, excluded) { if (source == null) return {}; var target = {}; var sourceKeys = Object.keys(source); var key, i; for (i = 0; i < sourceKeys.length; i++) { key = sourceKeys[i]; if (excluded.indexOf(key) >= 0) continue; target[key] = source[key]; } return target; }
+
 function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); keys.push.apply(keys, symbols); } return keys; }
 
 function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys(Object(source), true).forEach(function (key) { _defineProperty(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
@@ -18,24 +22,10 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 var invalidRequestXRequestId = "000-00-00-00-000";
 var nonServiceXRequestId = "000-000-00-000-000";
 /**
- * Builds a service request action
- * @param { String } action - Service Action
- * @param { Object } data - data blob ( usually JSON ) to be sent to the service action
- * @return { Object<String,Object>} - Object with action and data AS an object.
- */
-
-var buildAction = (action, data) => data ? {
-  action,
-  data
-} : {
-  action
-};
-/**
  * An error handler
  * @param { Object } response - response handling setters
  * @param { Error<xRequestId,status,userError,message> } error - error block
  */
-
 
 var handleError = (response, error) => {
   var {
@@ -147,22 +137,17 @@ var handleRequest = action => /*#__PURE__*/function () {
 
     var {
       actor,
-      name,
-      requestAVRO,
-      responseAVRO,
-      errorAVRO,
       requestTransformers = [],
       responseTransformers = []
-    } = action;
+    } = action,
+        request = _objectWithoutProperties(action, ["actor", "requestTransformers", "responseTransformers"]);
 
     try {
       var {
         data,
         xRequestId
-      } = yield actor.createRequest(buildAction(name, yield requestTransformer(requestTransformers, ctx)), {
-        requestAVRO,
-        responseAVRO,
-        errorAVRO
+      } = yield actor.createRequest(request, {
+        data: yield requestTransformer(requestTransformers, ctx)
       });
       response.set("x-request-id", xRequestId);
       response.status = 200;

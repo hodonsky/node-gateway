@@ -169,10 +169,11 @@ class Actor {
    */
 
 
-  createRequest(request, _ref) {
+  createRequest(_ref, data) {
     var _this = this;
 
     var {
+      action,
       requestAVRO,
       responseAVRO,
       errorAVRO
@@ -185,11 +186,12 @@ class Actor {
      * the message queue
      */
     if (!_classPrivateFieldGet(this, _link)) {
-      return new Promise(resolve => setTimeout(() => process.nextTick(() => resolve(this.createRequest(request, {
+      return new Promise(resolve => setTimeout(() => process.nextTick(() => resolve(this.createRequest({
+        action,
         requestAVRO,
         responseAVRO,
         errorAVRO
-      }))), 500));
+      }, data))), 500));
     }
 
     var correlationId = _classPrivateFieldGet(this, _config).uuidFn();
@@ -200,9 +202,9 @@ class Actor {
           _classPrivateMethodGet(_this, _buildResponder, _buildResponder2).call(_this, correlationId, resolve, reject, responseAVRO, errorAVRO);
 
           try {
-            _classPrivateFieldGet(_this, _link).sendToQueue(_classPrivateFieldGet(_this, _config).topic, yield (0, _nodeAvro.toAVRO)(request, requestAVRO), {
+            _classPrivateFieldGet(_this, _link).sendToQueue(_classPrivateFieldGet(_this, _config).topic, yield (0, _nodeAvro.toAVRO)(data, requestAVRO), {
               persistent: true,
-              type: request.action,
+              type: action,
               replyTo: _classPrivateFieldGet(_this, _responseTopic),
               correlationId
             }, error => {
