@@ -175,8 +175,7 @@ class Actor {
     var {
       action,
       requestAVRO,
-      responseAVRO,
-      errorAVRO
+      responseAVRO
     } = _ref;
 
     /**
@@ -189,8 +188,7 @@ class Actor {
       return new Promise(resolve => setTimeout(() => process.nextTick(() => resolve(this.createRequest({
         action,
         requestAVRO,
-        responseAVRO,
-        errorAVRO
+        responseAVRO
       }, data))), 500));
     }
 
@@ -199,7 +197,7 @@ class Actor {
     return new Promise( /*#__PURE__*/function () {
       var _ref2 = _asyncToGenerator(function* (resolve, reject) {
         try {
-          _classPrivateMethodGet(_this, _buildResponder, _buildResponder2).call(_this, correlationId, resolve, reject, responseAVRO, errorAVRO);
+          _classPrivateMethodGet(_this, _buildResponder, _buildResponder2).call(_this, correlationId, resolve, reject, responseAVRO);
 
           try {
             _classPrivateFieldGet(_this, _link).sendToQueue(_classPrivateFieldGet(_this, _config).topic, yield (0, _nodeAvro.toAVRO)(data, requestAVRO), {
@@ -269,7 +267,7 @@ var _initilizeConnection2 = /*#__PURE__*/function () {
 
     var attach = /*#__PURE__*/function () {
       var _ref3 = _asyncToGenerator(function* (connection) {
-        connection.on("MQ:reconnected", attach);
+        connection.on("AMQP:reconnected", attach);
         connection.on("error", detach);
         connection.on("close", detach);
 
@@ -347,7 +345,7 @@ var _handleResponse2 = function _handleResponse2(_ref4) {
   }
 };
 
-var _buildResponder2 = function _buildResponder2(correlationId, resolve, reject, responseAVRO, errorAVRO) {
+var _buildResponder2 = function _buildResponder2(correlationId, resolve, reject, responseAVRO) {
   _classPrivateFieldGet(this, _responders)[correlationId] = (_ref5) => {
     var {
       content,
@@ -361,7 +359,7 @@ var _buildResponder2 = function _buildResponder2(correlationId, resolve, reject,
       });
     } catch (err) {
       console.debug(err);
-      error = (0, _nodeAvro.fromAVRO)(content, errorAVRO, {
+      error = (0, _nodeAvro.fromAVRO)(content, {}, {
         error: true
       });
     }
