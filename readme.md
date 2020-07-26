@@ -1,6 +1,6 @@
 # Node-Gateway
 
-This is the gateway side of the SOA.
+This is the gateway side of the SOA: [Working Example](https://github.com/hodonsky/node-soa-example)
 
 ### Prerequisites ( standard AMQP 0-9-1 ):
 - AMQP Server/Cluster accepting connections with credentials. ( see  [`Local`](#Local) setup )
