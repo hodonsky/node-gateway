@@ -4,7 +4,8 @@
   "description": "Node web server (koajs), extending routes to a message queue (amqp 0-9-1) of 'topic' and 'action'.",
   "main": "./bin/index.js",
   "directories": {
-    "lib": "lib"
+    "lib": "lib",
+    "tests": "tests"
   },
   "scripts": {
     "test": "mocha --exit --require @babel/register ./tests",
@@ -58,12 +59,7 @@
     "@donsky/node-avro": "^0.4.1",
     "koa": "^2.13.0",
     "koa-bodyparser": "^4.3.0",
-    "koa-combine-routers": "^4.0.2",
-    "koa-cors": "0.0.16",
-    "koa-helmet": "^5.2.0",
-    "koa-morgan": "^1.0.1",
     "koa-router": "^9.1.0",
-    "koa-sslify": "^4.0.3",
     "morgan": "^1.10.0",
     "uuid": "^8.2.0"
   },
@@ -102,44 +98,5 @@
     "webpack": "^4.44.1",
     "webpack-cli": "^3.3.12",
     "webpack-node-externals": "^2.5.0"
-  },
-  "babel": {
-    "presets": [
-      [
-        "@babel/preset-env",
-        {
-          "targets": {
-            "esmodules": true
-          }
-        }
-      ]
-    ],
-    "plugins": [
-      "@babel/plugin-proposal-class-properties",
-      "@babel/plugin-proposal-private-methods",
-      "@babel/plugin-proposal-optional-chaining",
-      "@babel/plugin-proposal-export-default",
-      "@babel/plugin-proposal-export-default-from",
-      "@babel/plugin-proposal-export-namespace",
-      "@babel/plugin-proposal-export-namespace-from",
-      "@babel/plugin-proposal-nullish-coalescing-operator",
-      "@babel/plugin-proposal-throw-expressions",
-      "@babel/plugin-proposal-do-expressions",
-      "@babel/plugin-proposal-function-bind",
-      "@babel/plugin-proposal-partial-application",
-      "@babel/plugin-proposal-object-rest-spread",
-      [
-        "@babel/plugin-proposal-pipeline-operator",
-        {
-          "proposal": "fsharp"
-        }
-      ]
-    ],
-    "ignore": [
-      "node_modules/**/*",
-      "./*.test.js",
-      "tests/**"
-    ],
-    "sourceMaps": false
   }
 }

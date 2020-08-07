@@ -2,19 +2,19 @@
 
 This is the gateway side of the SOA: [Working Example](https://github.com/hodonsky/node-soa-example)
 
-### Prerequisites ( standard AMQP 0-9-1 ):
+#### Prerequisites ( standard AMQP 0-9-1 ):
 - AMQP Server/Cluster accepting connections with credentials. ( see  [`Local`](#Local) setup )
 - Consumer Service(s)/Cluster(s) responding on responseTopic with CorrelationID. ([@donsky/node-service](https://www.npmjs.com/package/@donsky/node-service) )
 
 
-### Impliments:
+#### Impliments:
 - NodeJS
 - AVRO Message Standards & Schema ( dependancy: avsc )
 - AMQP 0-9-1 Communication Standard ( dependancy: amqplib )
 - Babel 7 & ESNext plugins ( dependancy: babel-* )
 - KoaJS net server listening on `PORT` ( dependancy: koa & koa-* )
 
-## Initialize Your Gateway Server
+### Initialize Your Gateway Server
 
 ```javascript
 import Gateway from "@donsky/node-gateway"
@@ -23,10 +23,10 @@ import Gateway from "@donsky/node-gateway"
 new Gateway(/*[action1[,action2]]*/)
 ```
 
-## Configure
+### Configure
 All of the following configurations must be handled in the env vars, or in config in the code. Examples below:
 
-### ENV VARS
+##### ENV VARS
 
 Add the following to your bashrc, or bash profile depending on environment.
 I use docker-compose so I just attach them to the container environment.
@@ -42,7 +42,7 @@ export MQ_PASSWORD=SomePassword
 ```
 ###### The hostname can be a URI or a local hostname, in this example, _'rabbitmq'_ is my docker container hostname. During deploy this would change and be environment specific.
 
-### Code
+##### Code
 ```javascript
 Gateway.configure({
   mq: {
@@ -51,23 +51,22 @@ Gateway.configure({
     hostname: "rabbitmq"
     port    : 5672
   },
-  deps: {
-    "koa-bodyparser": { enableTypes: [ "json" ] },
-    "koa-cors"      : undefined, // Undefined just means no arguments are passed
-    "koa-helmet"    : undefined,
-    "koa-morgan"    : "combined",
-    "koa-sslify"    : {
-      redirectMethods      : [ "HEAD", "OPTIONS", "GET", "POST", "UPDATE", "PUT", "PATCH", "DELETE" ],
+  koaMiddleware: [
+    require( "koa-cors"   )(),
+    require( "koa-helmet" )(),
+    require( "koa-morgan" )( "combined" ),
+    require( "koa-sslify" )({
       trustProtoHeader     : true,
+      redirectMethods      : [ "HEAD", "OPTIONS", "GET", "POST" ],
       specCompliantDisallow: true
-    }
-  },
+    })
+  ],
   port: 80
 })
 ```
 
 
-## Action Object Options:
+#### Action Object Options:
 
 ```javascript
 // action.js
@@ -116,13 +115,22 @@ const optional = {
 export default { ...required, ...optional }
 ```
 
-#### Example:
+#### Events:
+```javascript
+"ready" - When the server is listening
+"error" - If something goes wrong
+```
+
+### Example:
 
 ```javascript
+import Gateway from "@donsky/node-gateway"
 import action from "./action"
 
 Gateway.configure({port:80})
-new Gateway([action])
+const gateway = new Gateway([action])
+gateway.on( "ready", msg => msg |> console.log )
+gateway.on( "error", err => err |> console.error )
 ```
 
 <br/>
@@ -133,7 +141,7 @@ new Gateway([action])
 > - This works well with PM2 (Process Manager 2)
 <br/>
 
-## Local:
+### Local:
 
 May I recommend spinning up a docker environment for those prerequisites, and getting all the services talking:
 ```Dockerfile
