@@ -45,11 +45,22 @@ export MQ_PASSWORD=SomePassword
 ### Code
 ```javascript
 Gateway.configure({
-  mq:{
+  mq: {
     username: "defaultAdmin",
     password: "SomePassword"
     hostname: "rabbitmq"
     port    : 5672
+  },
+  deps: {
+    "koa-bodyparser": { enableTypes: [ "json" ] },
+    "koa-cors"      : undefined, // Undefined just means no arguments are passed
+    "koa-helmet"    : undefined,
+    "koa-morgan"    : "combined",
+    "koa-sslify"    : {
+      redirectMethods      : [ "HEAD", "OPTIONS", "GET", "POST", "UPDATE", "PUT", "PATCH", "DELETE" ],
+      trustProtoHeader     : true,
+      specCompliantDisallow: true
+    }
   },
   port: 80
 })

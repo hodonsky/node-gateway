@@ -1,14 +1,14 @@
 {
   "name": "@donsky/node-gateway",
-  "version": "0.4.2",
+  "version": "0.5.1",
   "description": "Node web server (koajs), extending routes to a message queue (amqp 0-9-1) of 'topic' and 'action'.",
-  "main": "./bin/Server.js",
+  "main": "./bin/index.js",
   "directories": {
     "lib": "lib"
   },
   "scripts": {
-    "test": "mocha --exit --require ./node_modules/babel-core/register",
-    "build": "npx babel --out-dir ./bin ./lib"
+    "test": "mocha --exit --require @babel/register ./tests",
+    "build": "webpack"
   },
   "repository": {
     "type": "git",
@@ -55,7 +55,6 @@
   },
   "dependencies": {
     "amqplib": "^0.6.0",
-    "avsc": "^5.4.21",
     "@donsky/node-avro": "^0.4.1",
     "koa": "^2.13.0",
     "koa-bodyparser": "^4.3.0",
@@ -69,31 +68,40 @@
     "uuid": "^8.2.0"
   },
   "devDependencies": {
-    "babel-preset-minify": "^0.5.1",
-    "babel-plugin-module-resolver": "^4.0.0",
-    "@babel/cli": "^7.10.4",
-    "@babel/core": "^7.10.4",
+    "@babel/cli": "^7.10.5",
+    "@babel/core": "^7.11.1",
     "@babel/plugin-proposal-class-properties": "^7.10.4",
-    "@babel/plugin-proposal-private-methods": "^7.10.4",
     "@babel/plugin-proposal-do-expressions": "^7.10.4",
     "@babel/plugin-proposal-export-default": "^7.0.0-beta.32",
     "@babel/plugin-proposal-export-default-from": "^7.10.4",
     "@babel/plugin-proposal-export-namespace": "^7.0.0-beta.32",
     "@babel/plugin-proposal-export-namespace-from": "^7.10.4",
-    "@babel/plugin-proposal-function-bind": "^7.10.4",
+    "@babel/plugin-proposal-function-bind": "^7.10.5",
     "@babel/plugin-proposal-nullish-coalescing-operator": "^7.10.4",
-    "@babel/plugin-proposal-object-rest-spread": "^7.10.4",
-    "@babel/plugin-proposal-optional-chaining": "^7.10.4",
-    "@babel/plugin-proposal-partial-application": "^7.10.4",
-    "@babel/plugin-proposal-pipeline-operator": "^7.10.4",
+    "@babel/plugin-proposal-object-rest-spread": "^7.11.0",
+    "@babel/plugin-proposal-optional-chaining": "^7.11.0",
+    "@babel/plugin-proposal-partial-application": "^7.10.5",
+    "@babel/plugin-proposal-pipeline-operator": "^7.10.5",
+    "@babel/plugin-proposal-private-methods": "^7.10.4",
     "@babel/plugin-proposal-throw-expressions": "^7.10.4",
-    "@babel/plugin-transform-runtime": "^7.10.4",
-    "@babel/preset-env": "^7.10.4",
+    "@babel/plugin-transform-runtime": "^7.11.0",
+    "@babel/preset-env": "^7.11.0",
+    "@babel/register": "^7.10.5",
+    "babel-eslint": "^11.0.0-beta.0",
+    "babel-loader": "^8.1.0",
+    "babel-plugin-module-resolver": "^4.0.0",
+    "babel-preset-minify": "^0.5.1",
     "chai": "^4.2.0",
     "chai-as-promised": "^7.1.1",
+    "eslint": "^7.6.0",
+    "eslint-loader": "^4.0.2",
+    "exports-loader": "^1.1.0",
     "mocha": "^8.0.1",
     "rimraf": "^3.0.2",
-    "sinon": "^9.0.2"
+    "sinon": "^9.0.2",
+    "webpack": "^4.44.1",
+    "webpack-cli": "^3.3.12",
+    "webpack-node-externals": "^2.5.0"
   },
   "babel": {
     "presets": [
@@ -132,6 +140,6 @@
       "./*.test.js",
       "tests/**"
     ],
-    "sourceMaps": true
+    "sourceMaps": false
   }
 }
