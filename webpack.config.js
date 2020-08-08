@@ -2,7 +2,6 @@
 const { resolve } = require( "path" )
 
 module.exports = {
-  devtool: 'inline-source-map',
   entry: "./lib/Server.js",
   externals: [ require( "webpack-node-externals" )() ],
   mode: "production",
