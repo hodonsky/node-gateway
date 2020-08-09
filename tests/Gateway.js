@@ -2,7 +2,7 @@
 const { expect } = require( "chai" )
 
 const _Gateway = require( "../bin" ).default
-const Gateway = require( "../lib/Server").default
+const Gateway = require( "../lib/Gateway").default
 
 describe( "ESNext Gateway", () => {
   it( "has static properties", () => {
