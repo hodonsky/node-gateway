@@ -2,8 +2,6 @@
 
 This is the gateway side of the SOA: [Working Example](https://github.com/hodonsky/node-soa-example)
 
-[Donate!](https://www.patreon.com/bePatron?u=40456239)
-
 #### Prerequisites ( standard AMQP 0-9-1 ):
 - AMQP Server/Cluster accepting connections with credentials. ( see  [`Local`](#Local) setup )
 - Consumer Service(s)/Cluster(s) responding on responseTopic with CorrelationID. ([@donsky/node-service](https://www.npmjs.com/package/@donsky/node-service) )
@@ -178,3 +176,7 @@ services:
      - rabbitmq
     restart: on-failure
 ```
+
+
+### Donate
+Use this [Patreon](https://www.patreon.com/bePatron?u=40456239) link to donate to this project... and thank you!
