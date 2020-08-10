@@ -1,6 +1,7 @@
 # Node-Gateway
 
 This is the gateway side of the SOA: [Working Example](https://github.com/hodonsky/node-soa-example)
+<a href="https://www.patreon.com/bePatron?u=40456239" data-patreon-widget-type="become-patron-button">Donate!</a>
 
 #### Prerequisites ( standard AMQP 0-9-1 ):
 - AMQP Server/Cluster accepting connections with credentials. ( see  [`Local`](#Local) setup )
