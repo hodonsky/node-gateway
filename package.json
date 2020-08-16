@@ -1,6 +1,6 @@
 {
   "name": "@donsky/node-gateway",
-  "version": "1.0.0",
+  "version": "2.0.0",
   "description": "Node web server (koajs), extending routes to a message queue (amqp 0-9-1) of 'topic' and 'action'.",
   "main": "./bin/index.js",
   "directories": {

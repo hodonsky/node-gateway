@@ -69,7 +69,7 @@
     "lines-between-class-members": ["error", "always", { "exceptAfterSingleLine": true }],
     "max-depth": ["error", 4],
     "max-len": [ "error", 100 ],
-    "max-lines": ["error", {"max": 250, "skipBlankLines": true}],
+    "max-lines": ["error", {"max": 100, "skipBlankLines": true}],
     "max-nested-callbacks": ["error", 3 ],
     "max-params": [ "error", 4 ],
     "max-statements-per-line": [ "error", { "max": 1 } ],

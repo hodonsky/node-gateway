@@ -4,6 +4,7 @@ const { resolve } = require( "path" )
 const TerserPlugin = require( "terser-webpack-plugin" )
 
 module.exports = {
+  devtool: "inline-source-map",
   entry: "./lib/Gateway.js",
   externals: [ require( "webpack-node-externals" )() ],
   mode: "production",

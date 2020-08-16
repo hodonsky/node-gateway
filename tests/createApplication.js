@@ -12,7 +12,7 @@ describe( "Gateway Application Generator", () => {
   })
   describe( "requires an object as the only argument", () => {
     it( "errors with no argument, or undefined argument", () => {
-      expect( () => createApplication() ).to.throw( TypeError, "Cannot read property 'actions' of undefined" )
+      expect( () => createApplication() ).to.throw( TypeError, "Cannot destructure property `actions` of 'undefined' or 'null'" )
     })
     it( "errors if missing property mq", () => {
       expect( () => createApplication({}) ).to.throw( TypeError, "destructured mq property is undefined" )
