@@ -19,8 +19,7 @@ This is the gateway side of the SOA: [Working Example](https://github.com/hodons
 ```javascript
 import Gateway from "@donsky/node-gateway"
 
-
-new Gateway(/*[action1[,action2]]*/)
+new Gateway().listen()
 ```
 
 ### Configure
@@ -44,7 +43,7 @@ export MQ_PASSWORD=SomePassword
 
 ##### Code
 ```javascript
-Gateway.configure({
+const config = {
   mq: {
     username: "defaultAdmin",
     password: "SomePassword"
@@ -62,7 +61,7 @@ Gateway.configure({
     })
   ],
   port: 80
-})
+}
 ```
 
 
@@ -76,8 +75,6 @@ Gateway.configure({
  */
 const required = {
   topic       : "consumerTopic",
-  method      : "get"|"post"|"put"|"put"|"update"|"delete",
-  route       : "/route-path",
   name        : "consumerActionName",
   requestAVRO : [
     { name: "firstName", type: "string" }
@@ -127,10 +124,13 @@ export default { ...required, ...optional }
 import Gateway from "@donsky/node-gateway"
 import action from "./action"
 
-Gateway.configure({port:80})
-const gateway = new Gateway([action])
-gateway.on( "ready", msg => msg |> console.log )
-gateway.on( "error", err => err |> console.error )
+const gateway = new Gateway({port:80})
+gateway
+  .on( "ready", msg => msg |> console.log )
+  .on( "error", err => err |> console.error )
+  .post( "/route", action /*[ action2, action3, ...]*/ )
+  /*.get( "/path/:id", getPathId ) */
+  .listen() // This is new, and now required to start the listener
 ```
 
 <br/>
