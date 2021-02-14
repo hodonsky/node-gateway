@@ -65,7 +65,7 @@
     "@babel/cli": "^7.12.13",
     "@babel/core": "^7.11.1",
     "@babel/plugin-proposal-class-properties": "^7.10.4",
-    "@babel/plugin-proposal-do-expressions": "^7.10.4",
+    "@babel/plugin-proposal-do-expressions": "^7.12.13",
     "@babel/plugin-proposal-export-default": "^7.0.0-beta.32",
     "@babel/plugin-proposal-export-default-from": "^7.10.4",
     "@babel/plugin-proposal-export-namespace": "^7.0.0-beta.32",
