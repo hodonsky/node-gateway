@@ -124,13 +124,11 @@ export default { ...required, ...optional }
 import Gateway from "@donsky/node-gateway"
 import action from "./action"
 
-const gateway = new Gateway({port:80})
+const gateway = new Gateway()
 gateway
   .on( "ready", msg => msg |> console.log )
   .on( "error", err => err |> console.error )
-  .post( "/route", action /*[ action2, action3, ...]*/ )
-  /*.get( "/path/:id", getPathId ) */
-  .listen() // This is new, and now required to start the listener
+  .listen(80) // This is new, and now required to start the listener
 ```
 
 <br/>
